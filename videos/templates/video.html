@@ -25,6 +25,14 @@
       .sentence-current {
           color: red;
       }
+
+      #video {
+          width: 70vw;
+      }
+
+      .hidden {
+          display: none;
+      }
   </style>
   <body>
       <div class="container text-center">
@@ -52,13 +60,33 @@
         </div>
       </div>
       <br>
-    <div class="container" id="transcript">
-        Loading...
+
+    <div class="container" >
+        <form>
+            <div class="input-group mb-3">
+                <input id="search" type="text" class="form-control form-control-lg" placeholder="Search Here">
+            </div>
+        </form>
+        <div id="transcript">
+            Loading...
+        </div>
     </div>
 
     <script>
         var video = document.getElementById('video');
         var transcript = [];
+
+        function search() {
+            let searchInput = $('#search');
+            let sentences = $(".sentence");
+            sentences.removeClass('hidden');
+
+            sentences.each((index, sentence) => {
+                if (!sentence.text.toLowerCase().includes(searchInput.val().toLowerCase())) {
+                    $(sentence).addClass('hidden');
+                }
+            })
+        }
 
         function updateHighlightedSentences(sentenceId) {
             let sentences = $(".sentence");
@@ -99,6 +127,8 @@
             }
             $("#transcript").html(html)
         });
+
+        $('#search').keyup(()=>{ search() })
 
     </script>
     
